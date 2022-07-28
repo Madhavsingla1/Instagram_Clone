@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:insta_clone/resources/auth_methods.dart';
 import 'package:insta_clone/utils/colors.dart';
+import 'package:insta_clone/utils/utils.dart';
 import 'package:insta_clone/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,12 +15,29 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  bool _isloading = false;
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isloading = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+
+    setState(() {
+      _isloading = false;
+    });
+    if (res == "Success") {
+      ShowSnackBar(res, context);
+    } else {
+      ShowSnackBar(res, context);
+    }
   }
 
   @override
@@ -62,9 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               //button login
               InkWell(
-                onTap: () {},
+                onTap: loginUser,
                 child: Container(
-                  child: const Text("Log in"),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -72,12 +89,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.blue,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4)))),
+                  child: _isloading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text("Log in"),
                 ),
               ),
               const SizedBox(
                 height: 12,
               ),
 
+              Flexible(child: Container(), flex: 1),
               //Transition to siginig up
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -96,13 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Sign Up.",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                     ),
                   ),
                 ],
               ),
-
-              Flexible(child: Container(), flex: 1),
             ]),
       )),
     );
