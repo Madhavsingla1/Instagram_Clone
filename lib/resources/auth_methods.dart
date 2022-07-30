@@ -4,11 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_clone/model/user_model.dart' as model;
 import 'package:insta_clone/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<model.User> getUserDetails() async {
+    User id = _auth.currentUser!;
+
+    DocumentSnapshot snap =
+        await _firestore.collection("users").doc(id.uid).get();
+
+    return model.User.fromsnap(snap);
+  }
+
   // sing up user
   Future<String> singUpUser({
     required String email,
@@ -24,20 +35,27 @@ class AuthMethods {
           username.isNotEmpty ||
           bio.isNotEmpty ||
           file != null) {
+        //register User
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
+        // ading photo to database
         String picurl = await StorageMethods()
             .uploadImageToStorage('ProfilePic', file, false);
-        print(cred.user!.uid);
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
-          'email': email,
-          'bio': bio,
-          'photoUrl': picurl,
-          'followers': [],
-          'following': [],
-        });
+        // print(cred.user!.uid);
+
+        model.User user = model.User(
+            bio: bio,
+            username: username,
+            uid: cred.user!.uid,
+            email: email,
+            follower: [],
+            following: [],
+            photoUrl: picurl);
+
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
 
         // Another methods
         // await _firestore.collection('users').add({
@@ -72,10 +90,13 @@ class AuthMethods {
       if (email.isNotEmpty || password.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(
             email: email, password: password);
-        res = "Success";
+        if (res == "Some error occured") res = "Success";
       } else {
         res = "Please Enter all the fields";
       }
+    } on FirebaseAuthException catch (err) {
+      res = err.message ?? "Error";
+      // print(res);
     } catch (err) {
       res = err.toString();
     }

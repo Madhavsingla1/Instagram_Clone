@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/resources/auth_methods.dart';
+import 'package:insta_clone/responsive/responsive_layout_screen.dart';
+import 'package:insta_clone/screens/login_screen.dart';
 import 'package:insta_clone/utils/colors.dart';
 import 'package:insta_clone/utils/utils.dart';
 import 'package:insta_clone/widgets/text_field_input.dart';
+
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/web_screen_layout.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -38,6 +43,12 @@ class _SingUpScreenState extends State<SignUpScreen> {
     });
   }
 
+  void navigatetologinup() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => LoginScreen(),
+    ));
+  }
+
   void signUpUser() async {
     setState(() {
       _isloading = true;
@@ -53,6 +64,12 @@ class _SingUpScreenState extends State<SignUpScreen> {
     });
     if (res != "Success") {
       ShowSnackBar(res, context);
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const ResposiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              )));
     }
   }
 
@@ -161,19 +178,19 @@ class _SingUpScreenState extends State<SignUpScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  child: Text("Don't have an account"),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
+                // Container(
+                //   child: Text("Don't have an account"),
+                //   padding: const EdgeInsets.symmetric(vertical: 8),
+                // ),
+                // const SizedBox(
+                //   width: 5,
+                // ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: navigatetologinup,
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: const Text(
-                      "Sign Up.",
+                      "Login",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
