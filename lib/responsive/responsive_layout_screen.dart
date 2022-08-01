@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:insta_clone/provider/user_provider.dart';
-import 'package:insta_clone/utils/dimesions.dart';
-import 'package:provider/provider.dart';
+import 'package:insta_clone/import.dart';
 
 class ResposiveLayout extends StatefulWidget {
   final webScreenLayout;

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:insta_clone/import.dart';
 
 class User {
   final String email;
