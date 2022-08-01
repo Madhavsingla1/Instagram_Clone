@@ -25,7 +25,7 @@ class User {
         "email": email,
         "photoUrl": photoUrl,
         "bio": bio,
-        "followers": follower,
+        "follower": follower,
         "following": following
       };
 
@@ -34,10 +34,10 @@ class User {
     return User(
         email: data['email'],
         uid: data['uid'],
-        photoUrl: data['photourl'],
+        photoUrl: data['photoUrl'],
         username: data['username'],
         bio: data['bio'],
-        follower: data['followers'],
+        follower: data['follower'],
         following: data['following']);
   }
 }

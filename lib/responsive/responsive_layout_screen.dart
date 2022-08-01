@@ -17,14 +17,15 @@ class ResposiveLayout extends StatefulWidget {
 }
 
 class _ResposiveLayoutState extends State<ResposiveLayout> {
-  void initStat() {
+  @override
+  void initState() {
     super.initState();
     addData();
   }
 
   addData() async {
-    UserProvider userProvider = Provider.of(context, listen: false);
-    await userProvider.refreshUser();
+    UserProvider _userProvider = Provider.of(context, listen: false);
+    await _userProvider.refreshUser();
   }
 
   @override
