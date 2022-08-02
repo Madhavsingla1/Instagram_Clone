@@ -12,13 +12,14 @@ export 'package:insta_clone/responsive/responsive_layout_screen.dart';
 export 'package:insta_clone/responsive/web_screen_layout.dart';
 export 'package:insta_clone/screens/login_screen.dart';
 export 'package:insta_clone/utils/colors.dart';
-export 'package:insta_clone/utils/dimesions.dart';
+export 'package:insta_clone/utils/global_variables.dart';
 
 // Dependencies for the Project
 export 'package:provider/provider.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_core/firebase_core.dart';
+export 'package:firebase_storage/firebase_storage.dart';
 
 // Database Methods
 export 'package:insta_clone/resources/auth_methods.dart';
