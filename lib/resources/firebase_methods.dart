@@ -1,4 +1,5 @@
 import 'package:insta_clone/import.dart';
+import 'package:insta_clone/model/comment_model.dart';
 import 'package:insta_clone/model/post_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -53,6 +54,37 @@ class FireStoreMethod {
       print(
         e.toString(),
       );
+    }
+  }
+
+  Future<void> comment(String postid, String uid, String comment,
+      String profilePic, String username) async {
+    String res = "Some thing is wrong";
+    try {
+      if (comment.isNotEmpty) {
+        String commentid = const Uuid().v1();
+        Comment comm = Comment(
+          username: username,
+          comments: comment,
+          postid: postid,
+          uid: uid,
+          profilePic: profilePic,
+          commentid: commentid,
+          datePublished: DateTime.now(),
+        );
+        await _firestore
+            .collection('posts')
+            .doc(postid)
+            .collection("comments")
+            .doc(commentid)
+            .set(
+              comm.toMap(),
+            );
+      } else {
+        print("Text is Empty");
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

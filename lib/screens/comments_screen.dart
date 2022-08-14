@@ -1,20 +1,42 @@
 import 'package:insta_clone/import.dart';
+import 'package:insta_clone/widgets/comment_card.dart';
+import 'package:insta_clone/model/user_model.dart' as model;
 
 class CommentScreen extends StatefulWidget {
-  const CommentScreen({Key? key}) : super(key: key);
+  final snap;
+  const CommentScreen({
+    Key? key,
+    required this.snap,
+  }) : super(key: key);
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
 }
 
 class _CommentScreenState extends State<CommentScreen> {
+  late TextEditingController _commentcontroller;
+
+  @override
+  void initState() {
+    super.initState();
+    _commentcontroller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _commentcontroller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final model.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: const Text("Comments"),
       ),
+      body: CommentCard(),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: kToolbarHeight,
@@ -22,23 +44,27 @@ class _CommentScreenState extends State<CommentScreen> {
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 18,
-              backgroundImage: NetworkImage(
-                  "https://images.unsplash.com/photo-1543660029-e2fd1a6d7e05?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"),
+              backgroundImage: NetworkImage(user.photoUrl),
             ),
-            const Expanded(
+            Expanded(
               child: Padding(
                 padding: EdgeInsets.only(right: 8.0, left: 16),
                 child: TextField(
+                  controller: _commentcontroller,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                      hintText: "Comment as username",
+                      hintText: "Comment as ${user.username}",
                       border: InputBorder.none),
                 ),
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () async {
+                await FireStoreMethod().comment(widget.snap['postId'], user.uid,
+                    _commentcontroller.text, user.photoUrl, user.username);
+              },
               child: Container(
                 padding: const EdgeInsets.all(8),
                 child: const Text(

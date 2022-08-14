@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:insta_clone/import.dart';
 
 class User {
