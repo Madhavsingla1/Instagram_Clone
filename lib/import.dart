@@ -13,6 +13,8 @@ export 'package:insta_clone/responsive/web_screen_layout.dart';
 export 'package:insta_clone/screens/login_screen.dart';
 export 'package:insta_clone/utils/colors.dart';
 export 'package:insta_clone/utils/global_variables.dart';
+export 'package:insta_clone/screens/comments_screen.dart';
+export 'package:insta_clone/widgets/like_animation.dart';
 
 // Dependencies for the Project
 export 'package:provider/provider.dart';
@@ -24,3 +26,4 @@ export 'package:firebase_storage/firebase_storage.dart';
 // Database Methods
 export 'package:insta_clone/resources/auth_methods.dart';
 export 'package:insta_clone/resources/storage_methods.dart';
+export 'package:insta_clone/resources/firebase_methods.dart';

@@ -36,11 +36,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: onpagechanged,
-        physics: const NeverScrollableScrollPhysics(),
-        children: homeScreenItems,
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: onpagechanged,
+          physics: const NeverScrollableScrollPhysics(),
+          children: homeScreenItems,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
