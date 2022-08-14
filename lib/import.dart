@@ -4,6 +4,8 @@ export 'dart:typed_data';
 // Flutter Packages
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';
+export 'package:flutter_svg/svg.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Files in Project
 export 'package:insta_clone/provider/user_provider.dart';
@@ -15,6 +17,7 @@ export 'package:insta_clone/utils/colors.dart';
 export 'package:insta_clone/utils/global_variables.dart';
 export 'package:insta_clone/screens/comments_screen.dart';
 export 'package:insta_clone/widgets/like_animation.dart';
+export 'package:insta_clone/widgets/post_card.dart';
 
 // Dependencies for the Project
 export 'package:provider/provider.dart';

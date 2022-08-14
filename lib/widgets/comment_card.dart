@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:insta_clone/import.dart';
+import 'package:intl/intl.dart';
 
 class CommentCard extends StatefulWidget {
-  const CommentCard({Key? key}) : super(key: key);
+  final snap;
+  const CommentCard({
+    Key? key,
+    required this.snap,
+  }) : super(key: key);
 
   @override
   State<CommentCard> createState() => _CommentCardState();
@@ -18,11 +23,9 @@ class _CommentCardState extends State<CommentCard> {
       ),
       child: Row(
         children: [
-          const CircleAvatar(
-            radius: 18,
-            backgroundImage: NetworkImage(
-                "https://images.unsplash.com/photo-1655995883669-a8dff876134b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"),
-          ),
+          CircleAvatar(
+              radius: 18,
+              backgroundImage: NetworkImage(widget.snap['profilePic'])),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
@@ -34,11 +37,11 @@ class _CommentCardState extends State<CommentCard> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "username",
+                          text: widget.snap['username'],
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: " some Description",
+                          text: " ${widget.snap['comments']}",
                         ),
                       ],
                     ),
@@ -48,9 +51,10 @@ class _CommentCardState extends State<CommentCard> {
                       top: 4,
                     ),
                     child: Text(
-                      '23/12/21',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w200),
+                      DateFormat.yMMMMd()
+                          .format(widget.snap['datePublished'].toDate()),
+                      style: const TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.w200),
                     ),
                   ),
                 ],
@@ -59,7 +63,7 @@ class _CommentCardState extends State<CommentCard> {
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            child: Icon(
+            child: const Icon(
               Icons.favorite,
               size: 16,
             ),

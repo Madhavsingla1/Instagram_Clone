@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:insta_clone/import.dart';
+import 'package:insta_clone/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:insta_clone/model/user_model.dart' as model;
 
@@ -16,6 +17,26 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
+  int commentlen = 0;
+  @override
+  void initState() {
+    super.initState();
+    getComments();
+  }
+
+  void getComments() async {
+    try {
+      QuerySnapshot snap = await FirebaseFirestore.instance
+          .collection('posts/${widget.snap['postId']}/comments')
+          .get();
+
+      commentlen = snap.docs.length;
+    } catch (e) {
+      ShowSnackBar(e.toString(), context);
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
@@ -206,7 +227,7 @@ class _PostCardState extends State<PostCard> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Text(
-                    "We all 200 comments",
+                    "We all $commentlen comments",
                     style: TextStyle(
                       fontSize: 16,
                       color: secondaryColor,

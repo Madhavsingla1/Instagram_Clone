@@ -46,7 +46,7 @@ class Comment {
       'uid': uid,
       'profilePic': profilePic,
       'commentid': commentid,
-      'datePublished': datePublished.millisecondsSinceEpoch,
+      'datePublished': datePublished,
       'username': username,
     };
   }

@@ -36,7 +36,25 @@ class _CommentScreenState extends State<CommentScreen> {
         backgroundColor: mobileBackgroundColor,
         title: const Text("Comments"),
       ),
-      body: CommentCard(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('posts/${widget.snap['postId']}/comments')
+            .orderBy('datePublished', descending: true)
+            .snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView.builder(
+            itemCount: (snapshot.data! as dynamic).docs.length,
+            itemBuilder: (context, index) => CommentCard(
+              snap: (snapshot.data! as dynamic).docs[index],
+            ),
+          );
+        },
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: kToolbarHeight,
@@ -64,6 +82,9 @@ class _CommentScreenState extends State<CommentScreen> {
               onTap: () async {
                 await FireStoreMethod().comment(widget.snap['postId'], user.uid,
                     _commentcontroller.text, user.photoUrl, user.username);
+                setState(() {
+                  _commentcontroller.text = "";
+                });
               },
               child: Container(
                 padding: const EdgeInsets.all(8),
