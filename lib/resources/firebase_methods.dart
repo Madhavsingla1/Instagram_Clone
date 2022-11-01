@@ -89,8 +89,11 @@ class FireStoreMethod {
   }
 
   // Delete Post
-
-  Future<void> deletePost(String postId) async {
+  // Have to change as the delete post is deleting all the post from one user only
+  // change it to auth method in which we can delete the post posted by the same user.
+  Future<void> deletePost(
+    String postId,
+  ) async {
     try {
       _firestore.collection('posts').doc(postId).delete();
     } catch (e) {
