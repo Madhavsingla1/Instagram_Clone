@@ -113,8 +113,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
               title: const Text("Post to"),
               actions: [
                 TextButton(
-                    onPressed: () =>
-                        postImage(user.uid, user.username, user.photoUrl),
+                    onPressed: () {
+                      postImage(user.uid, user.username, user.photoUrl);
+                      _descriptionController.clear();
+                    },
                     child: const Text(
                       "Post",
                       style: TextStyle(
@@ -127,8 +129,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
             body: Column(
               children: [
                 isLoading
-                    ? LinearProgressIndicator()
-                    : Padding(
+                    ? const LinearProgressIndicator()
+                    : const Padding(
                         padding: EdgeInsets.all(0),
                       ),
                 const Divider(),

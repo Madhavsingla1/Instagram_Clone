@@ -26,7 +26,8 @@ class FeedScreen extends StatelessWidget {
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.connectionState == ConnectionState.none) {
+              snapshot.connectionState == ConnectionState.none ||
+              !snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
             );
