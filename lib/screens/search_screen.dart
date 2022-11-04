@@ -70,13 +70,30 @@ class _SearchScreenState extends State<SearchScreen> {
           : FutureBuilder(
               future: FirebaseFirestore.instance.collection('posts').get(),
               // initialData: InitialData,
-              builder: (context, AsyncSnapshot snapshot) {
+              builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
-                return Text("Hello");
+                return StaggeredGrid.count(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 5,
+                  children: [
+                    for (int i = 0;
+                        i < (snapshot.data! as dynamic).docs.length;
+                        i++)
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: i % 3 == 0 ? 2 : 1,
+                        mainAxisCellCount: i % 3 == 0 ? 2 : 1,
+                        child: Image.network(
+                          (snapshot.data! as dynamic).docs[i]['postUrl'],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                  ],
+                );
               },
             ),
     );
