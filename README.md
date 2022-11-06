@@ -14,7 +14,7 @@ If you don't have flutter first install flutter
 
 and then use command
 
-### `flutter pub get'
+### `flutter pub get`
 
 to install all necessary Packages.
 
